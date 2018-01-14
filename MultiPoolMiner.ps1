@@ -86,7 +86,7 @@ Start-Transcript ".\Logs\$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").txt"
 #Check for software updates
 $Downloader = Start-Job -InitializationScript ([scriptblock]::Create("Set-Location('$(Get-Location)')")) -ArgumentList ("2.7.1.4", $PSVersionTable.PSVersion, "") -FilePath .\Updater.ps1
 
-#Set donation parameters
+#Dummy
 $DevTime = 10
 $LastDevTimed = $Timer.AddDays(-1).AddHours(1)
 $WalletDevTime = "1BoQWhLa1qQxqFVgxprTHbtb2FXqwtL7yQ"
